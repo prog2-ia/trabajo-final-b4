@@ -10,7 +10,11 @@ class Ciclista:
         self.apellidos = apellidos
         self.edad = edad
 
+class Itinerario:
 
+    def __init__(self, ubicacion,fecha):
+        self.ubicacion=ubicacion
+        self.fecha=fecha
 
 if __name__ == '__main__':
     print()
