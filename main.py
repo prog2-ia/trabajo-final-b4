@@ -1,20 +1,34 @@
-class Pista:
+from Persona import Usuario, Staff
+from Vehiculo import VehiculoStaff, Bici
+from modalidades import Ciclismo, Senderismo
 
-    def __init__(self, km):
-        self.km = km
+def main():
+    medico_carrera = Staff("Ana López", 35, "12345678A", "Médico")
+    coordinador = Staff("Luis Pérez", 42, "87654321B", "Coordinador")
 
-class Ciclista:
+    bici_carrera = Bici("Bici de Carlos", "B-001", "Trek", "Emonda", 2023, "carretera", 21)
+    furgoneta = VehiculoStaff("Furgo Médica", "1111-ABC", "Ford", "Transit", 2022, "Furgoneta", 5)
 
-    def __init__(self, nombre, apellidos, edad):
-        self.nombre = nombre
-        self.apellidos = apellidos
-        self.edad = edad
+    print(bici_carrera)
 
-class Itinerario:
+    bici_carrera.iniciar_uso("Carlos")
+    bici_carrera.pedalear()
 
-    def __init__(self, ubicacion,fecha):
-        self.ubicacion=ubicacion
-        self.fecha=fecha
+    print("\nLlevando la bici al taller...")
+    bici_carrera.mantenimiento("24/10/2023", "Limpieza de cadena y ajuste de frenos")
 
-if __name__ == '__main__':
-    print()
+    bici_carrera.finalizar_uso()
+
+    print(furgoneta)
+
+    furgoneta.embarcar_pasajero(medico_carrera)
+    furgoneta.embarcar_pasajero(coordinador)
+
+    furgoneta.mostrar_personal_bordo()
+
+    print("\nLlevando la furgoneta al taller...")
+    furgoneta.mantenimiento("25/10/2023", "Repostaje completo y revisión de presión")
+
+
+if __name__ == "__main__":
+    main()

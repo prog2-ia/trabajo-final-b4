@@ -27,7 +27,7 @@ class Usuario(Persona):
                 elif nivel == 'aficionado':
                     nivel = 1
                 else:
-                    nivel =2
+                    nivel = 2
         if nivel not in (None, 0, 1, 2):
             print('⚠️ Nivel inválido. Se asignará "None" ⚠️')
             return None
