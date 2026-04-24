@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-
+from typing import Self
 
 class Modalidad(ABC):
-    def __init__(self, nombre, requiere_vehiculo):
+    def __init__(self, nombre: str, requiere_vehiculo: bool):
         self.nombre = nombre
         self.requiere_vehiculo = requiere_vehiculo
 
@@ -11,7 +11,7 @@ class Modalidad(ABC):
         return f"Modalidad: {self.nombre} | Requiere vehículo: {vehiculo_txt}"
 
     @abstractmethod
-    def calcular_tiempo(self, distancia_km):
+    def calcular_tiempo(self, distancia_km: float) -> str:
         pass
 
     @abstractmethod
@@ -24,7 +24,7 @@ class Ciclismo(Modalidad):
         super().__init__(nombre="Ciclismo", requiere_vehiculo=True)
         self.velocidad_media = 20
 
-    def calcular_tiempo(self, distancia_km):
+    def calcular_tiempo(self, distancia_km: float) -> str:
         tiempo = distancia_km / self.velocidad_media
         return f"{tiempo:.1f} horas pedaleando"
 
@@ -34,7 +34,7 @@ class Senderismo(Modalidad):
         super().__init__(nombre="Senderismo", requiere_vehiculo=False)
         self.velocidad_media = 5
 
-    def calcular_tiempo(self, distancia_km):
+    def calcular_tiempo(self, distancia_km: float) -> str:
         tiempo = distancia_km / self.velocidad_media
         return f"{tiempo:.1f} horas caminando"
 
