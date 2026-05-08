@@ -83,6 +83,29 @@ class Pista(ABC):
         self._abierta = True
         return 'La pista está abierta'
 
+    def __add__(self, punto_interes: str) -> 'Pista':
+
+        if punto_interes not in self._puntos_interes:
+            self._puntos_interes.append(punto_interes)
+
+        return self
+
+    def __len__(self) -> int:
+        return len(self._participantes)
+
+#Añadir y quitar usuarios con += y -=:
+    def __iadd__(self, usuario: Usuario) -> "Pista":
+
+        self.participa(usuario)
+
+        return self
+
+    def __isub__(self, usuario: Usuario) -> "Pista":
+
+        self.cancelar(usuario)
+
+        return self
+
     def __str__(self) ->  str:
         if self._dificultad == 2:
             dif = 'Difícil'
