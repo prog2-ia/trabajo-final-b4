@@ -14,6 +14,7 @@ class CapacidadExcedidaException(VehiculoException):
 class VehiculoYaLibreException(VehiculoException):
     pass
 
+#EXCEPCIONES DE MODALIDAD
 class ModalidadException(Exception):
     pass
 

@@ -30,6 +30,12 @@ class Ciclismo(Modalidad):
         tiempo = distancia_km / self.velocidad_media
         return f"{tiempo:.1f} horas pedaleando"
 
+    def equipamiento(self) -> list[str]:
+        return [
+            "Casco homologado",
+            "Bidón de agua",
+            "Ropa reflectante",
+        ]
 
 class Senderismo(Modalidad):
     def __init__(self):
@@ -41,4 +47,13 @@ class Senderismo(Modalidad):
             raise ValueError(f"La distancia debe ser mayor a 0. Valor recibido: {distancia_km} km.")
         tiempo = distancia_km / self.velocidad_media
         return f"{tiempo:.1f} horas caminando"
+
+    def equipamiento(self) -> list[str]:
+        return [
+            "Botas de montaña",
+            "Mochila",
+            "Bastones de trekking",
+            "Mapa o GPS",
+            "Agua y comida"
+        ]
 
