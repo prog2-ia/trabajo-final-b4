@@ -25,6 +25,8 @@ class Ciclismo(Modalidad):
         self.velocidad_media = 20
 
     def calcular_tiempo(self, distancia_km: float) -> str:
+        if distancia_km <= 0:
+            raise ValueError(f"La distancia debe ser mayor a 0. Valor recibido: {distancia_km} km.")
         tiempo = distancia_km / self.velocidad_media
         return f"{tiempo:.1f} horas pedaleando"
 
@@ -35,6 +37,8 @@ class Senderismo(Modalidad):
         self.velocidad_media = 5
 
     def calcular_tiempo(self, distancia_km: float) -> str:
+        if distancia_km <= 0:
+            raise ValueError(f"La distancia debe ser mayor a 0. Valor recibido: {distancia_km} km.")
         tiempo = distancia_km / self.velocidad_media
         return f"{tiempo:.1f} horas caminando"
 

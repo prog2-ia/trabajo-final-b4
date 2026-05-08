@@ -14,3 +14,15 @@ class CapacidadExcedidaException(VehiculoException):
 class VehiculoYaLibreException(VehiculoException):
     pass
 
+class ModalidadException(Exception):
+    pass
+
+class EquipamientoIncompletoException(ModalidadException):
+    pass
+
+class VehiculoIncompatibleException(ModalidadException):
+    pass
+
+class VehiculoFaltaException(ModalidadException):
+    pass
+
