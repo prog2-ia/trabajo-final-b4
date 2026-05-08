@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class Vehiculo(ABC):
-    def __init__(self, nombre, matricula, marca, modelo, anyo, estadooptimo=True):
+    def __init__(self, nombre: str, matricula: int, marca: str, modelo: str, anyo: int, estadooptimo=True):
         self.nombre = nombre
         self.matricula = matricula
         self.marca = marca
@@ -17,14 +17,14 @@ class Vehiculo(ABC):
         return f'Vehiculo de {self.nombre}: \n matrícula: {self.matricula} \n marca: {self.marca} \n modelo: {self.modelo} \n anyo: {self.anyo}'
 
     @abstractmethod
-    def mantenimiento(self, fecha, detalles):
+    def mantenimiento(self, fecha: str, detalles: str) -> bool:
         pass
 
     def reporteaveria(self):
         self.reparacion = True
         return f"El vehículo {self.matricula} ha reportado una avería."
 
-    def iniciar_uso(self, usuario):
+    def iniciar_uso(self, usuario) ->bool:
         if self.estadooptimo == False:
             print(f"❌ Error: El vehículo {self.matricula} no se puede usar. No está en estado óptimo")
             return False
@@ -46,7 +46,7 @@ class Vehiculo(ABC):
 
 
 class Bici(Vehiculo):
-    def __init__(self, nombre, matricula, marca, modelo, anyo, tipo_bici, marchas, estadooptimo=True):
+    def __init__(self, nombre: str, matricula: int, marca: str, modelo: str, anyo: int, tipo_bici: str, marchas: int, estadooptimo=True):
         super().__init__(nombre, matricula, marca, modelo, anyo, estadooptimo)
         self.tipo_bici = tipo_bici
         self.marchas = marchas
@@ -59,7 +59,7 @@ class Bici(Vehiculo):
         else:
             self.velocidad_media_estimada = 10
 
-    def mantenimiento(self, fecha, detalles):
+    def mantenimiento(self, fecha: str, detalles: str) -> bool:
         print(
             f'Estado actual de la bici: \n cadenas:{self.estado_cadena} \n pastillas:{self.pastillas_freno} \n presion de ruedas:{self.presion_ruedas}')
 
@@ -87,7 +87,7 @@ class Bici(Vehiculo):
 
 
 class VehiculoStaff(Vehiculo):
-    def __init__(self, nombre, matricula, marca, modelo, anyo, tipo_vehiculo, cap_pasajeros, energia='Gasolina',
+    def __init__(self, nombre: str, matricula: int, marca: str, modelo: str, anyo: int, tipo_vehiculo: str, cap_pasajeros: int, energia='Gasolina',
                  combustible=50, estadooptimo=True):
         super().__init__(nombre, matricula, marca, modelo, anyo, estadooptimo)
         self.tipo_vehiculo = tipo_vehiculo
@@ -102,12 +102,12 @@ class VehiculoStaff(Vehiculo):
         generica = super().__str__()
         return f"{generica} | Tipo: {self.tipo_vehiculo}, Capacidad: {self.cap_pasajeros} pasajeros."
 
-    def embarcar_pasajero(self, persona_staff):
+    def embarcar_pasajero(self, persona_staff: str) -> None:
         if len(self.pasajeros) < self.cap_pasajeros:
             self.pasajeros.append(persona_staff)
             print(f"El pasajero {persona_staff} ha subido al vehículo {self.matricula}.")
         else:
-            print(f"Vehículo {self.matricula} lleno. No se pudo embarcar a {persona_staff.nombre}.")
+            print(f"Vehículo {self.matricula} lleno. No se pudo embarcar a {persona_staff}.")
 
     def mostrar_personal_bordo(self):
         if self.pasajeros:
@@ -117,7 +117,7 @@ class VehiculoStaff(Vehiculo):
         else:
             print(f"El vehículo {self.matricula} no tiene pasajeros.")
 
-    def mantenimiento(self, fecha, detalles):
+    def mantenimiento(self, fecha: str, detalles: str) -> bool:
         print(f"Estado actual del vehículo de staff {self.matricula}:")
         print(f"- Combustible: {self.combustible}%")
         print(f"- Aceite: {self.estado_aceite}")
