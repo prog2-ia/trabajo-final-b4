@@ -44,13 +44,13 @@ class Pista(ABC):
     def hay_plazas(self) -> bool:
         return len(self._participantes) < self._max_personas
 
-    def ya_inscrito(self, usuario: 'Usuario') -> bool:
+    def ya_inscrito(self, usuario: Usuario) -> bool:
         if usuario in self._participantes:
             return True
         else:
             return False
 
-    def cancelar(self, usuario: 'Usuario') -> str:
+    def cancelar(self, usuario: Usuario) -> str:
         if usuario in self._participantes:
             self._participantes.remove(usuario)
             return f'❌ El usuario {usuario.nombre} ha cancelado su inscripción ❌'
@@ -71,7 +71,7 @@ class Pista(ABC):
         self._clima = random.choice(['Soleado', 'Nublado', 'Lluvia'])
         return f'Nuevo clima de la pista {self._nombre}: {self._clima}'
 
-    def asignar_staff(self, staff: 'Staff') -> str:
+    def asignar_staff(self, staff: Staff) -> str:
         self._staff = staff.nombre
         return f'El staff {staff.nombre} se ha asignado asignado a la pista {self._nombre}'
 
@@ -94,13 +94,13 @@ class Pista(ABC):
         return len(self._participantes)
 
 #Añadir y quitar usuarios con += y -=:
-    def __iadd__(self, usuario: Usuario) -> "Pista":
+    def __iadd__(self, usuario: Usuario) -> 'Pista':
 
         self.participa(usuario)
 
         return self
 
-    def __isub__(self, usuario: Usuario) -> "Pista":
+    def __isub__(self, usuario: Usuario) -> 'Pista':
 
         self.cancelar(usuario)
 
@@ -132,7 +132,7 @@ class Pista(ABC):
 
 
 class PistaCiclismo(Pista):
-    def participa(self, usuario: 'Usuario') -> str:
+    def participa(self, usuario: Usuario) -> str:
         if not self._abierta:
             return f'❌ La pista {self._nombre} está cerrada ❌'
 
@@ -155,7 +155,7 @@ class PistaCiclismo(Pista):
 
 
 class PistaSenderismo(Pista):
-    def participa(self, usuario: 'Usuario') -> str:
+    def participa(self, usuario: Usuario) -> str:
         if not self._abierta:
             return f'❌ La pista {self._nombre} está cerrada ❌'
 
