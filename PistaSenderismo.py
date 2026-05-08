@@ -1,4 +1,4 @@
-from Persona import Usuario
+from Usuario import Usuario
 from Pista import Pista
 
 

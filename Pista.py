@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from Persona import Usuario, Staff
+from Usuario import Usuario
+from Staff import Staff
 import random
 
 Nivel = int | None

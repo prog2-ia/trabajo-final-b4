@@ -1,5 +1,5 @@
 from Pista import Pista
-from Persona import Usuario
+from Usuario import Usuario
 
 class PistaCiclismo(Pista):
     def participa(self, usuario: Usuario) -> str:

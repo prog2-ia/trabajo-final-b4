@@ -1,4 +1,5 @@
-from Persona import Usuario, Staff
+from Usuario import Usuario
+from Staff import Staff
 from Vehiculo import VehiculoStaff, Bici
 from modalidades import Ciclismo, Senderismo
 
