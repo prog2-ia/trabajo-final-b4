@@ -4,31 +4,70 @@ from Vehiculo import VehiculoStaff, Bici
 from modalidades import Ciclismo, Senderismo
 
 def main():
-    medico_carrera = Staff("Ana López", 35, "12345678A", "Médico")
-    coordinador = Staff("Luis Pérez", 42, "87654321B", "Coordinador")
+    def guardar_vehiculo_en_txt(vehiculo):
+        # Abrimos el archivo en modo 'a' (añadir)
+        try:
+            with open("vehiculos.txt", "a", encoding="utf-8") as fichero:
 
-    bici_carrera = Bici("Bici de Carlos", "B-001", "Trek", "Emonda", 2023, "carretera", 21)
-    furgoneta = VehiculoStaff("Furgo Médica", "1111-ABC", "Ford", "Transit", 2022, "Furgoneta", 5)
+                # Comprobamos de qué clase es el vehículo para saber qué atributos tiene
+                if isinstance(vehiculo, Bici):
+                    # Formateamos los datos separados por el símbolo |
+                    linea = f"Bici|{vehiculo.nombre}|{vehiculo.matricula}|{vehiculo.marca}|{vehiculo.modelo}|{vehiculo.anyo}|{vehiculo.tipo_bici}|{vehiculo.marchas}\n"
 
-    print(bici_carrera)
+                elif isinstance(vehiculo, VehiculoStaff):
+                    linea = f"Staff|{vehiculo.nombre}|{vehiculo.matricula}|{vehiculo.marca}|{vehiculo.modelo}|{vehiculo.anyo}|{vehiculo.tipo_vehiculo}|{vehiculo.cap_pasajeros}\n"
 
-    bici_carrera.iniciar_uso("Carlos")
-    bici_carrera.pedalear()
+                fichero.write(linea)
+                print(f"Vehículo {vehiculo.matricula} guardado correctamente en el fichero.")
 
-    print("\nLlevando la bici al taller...")
-    bici_carrera.mantenimiento("24/10/2023", "Limpieza de cadena y ajuste de frenos")
+        except IOError as e:
+            # Excepción por si hay problemas de permisos o el disco está lleno
+            print(f"Error al intentar guardar en el archivo: {e}")
 
-    bici_carrera.finalizar_uso()
+    def cargar_vehiculos_desde_txt():
+        flota = []  # Lista donde guardaremos los objetos recuperados
 
-    print(furgoneta)
+        try:
+            # Abrimos en modo 'r' (leer)
+            with open("vehiculos.txt", "r", encoding="utf-8") as fichero:
+                for linea in fichero:
+                    # Quitamos el salto de línea del final y partimos por el separador
+                    datos = linea.strip().split("|")
 
-    furgoneta.embarcar_pasajero(medico_carrera)
-    furgoneta.embarcar_pasajero(coordinador)
+                    tipo = datos[0]
 
-    furgoneta.mostrar_personal_bordo()
+                    if tipo == "Bici":
+                        # ¡Ojo! Los números hay que convertirlos de texto a int()
+                        nueva_bici = Bici(
+                            nombre=datos[1],
+                            matricula=int(datos[2]),
+                            marca=datos[3],
+                            modelo=datos[4],
+                            anyo=int(datos[5]),
+                            tipo_bici=datos[6],
+                            marchas=int(datos[7])
+                        )
+                        flota.append(nueva_bici)
 
-    print("\nLlevando la furgoneta al taller...")
-    furgoneta.mantenimiento("25/10/2023", "Repostaje completo y revisión de presión")
+                    elif tipo == "Staff":
+                        nuevo_staff = VehiculoStaff(
+                            nombre=datos[1],
+                            matricula=int(datos[2]),
+                            marca=datos[3],
+                            modelo=datos[4],
+                            anyo=int(datos[5]),
+                            tipo_vehiculo=datos[6],
+                            cap_pasajeros=int(datos[7])
+                        )
+                        flota.append(nuevo_staff)
+
+            print(f"✅ Se han cargado {len(flota)} vehículos del fichero.")
+            return flota
+
+        except FileNotFoundError:
+            # Si el programa se ejecuta por primera vez, el .txt no existirá
+            print("⚠️ No existe el archivo 'vehiculos.txt'. Se iniciará con una flota vacía.")
+            return []
 
 
 # 1. Instanciamos la modalidad
