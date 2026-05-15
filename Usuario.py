@@ -1,4 +1,6 @@
 from Persona import Persona, NivelEntrada, Nivel
+from customexceptions import NivelInvalidoException
+
 
 # El nivel funciona : (0=Principiante, 1=Aficionado, 2=Experto)
 class Usuario(Persona):
@@ -21,8 +23,7 @@ class Usuario(Persona):
                 else:
                     nivel = 2
         if nivel not in (None, 0, 1, 2):
-            print('⚠️ Nivel inválido. Se asignará "None" ⚠️')
-            return None
+            raise NivelInvalidoException(f'El nivel {nivel} no es válido')
         else:
             return nivel
 

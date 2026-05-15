@@ -1,4 +1,5 @@
 from abc import ABC
+from customexceptions import DNIInvalidoException
 
 NivelEntrada = int | str | None
 Nivel = int | None
@@ -8,6 +9,8 @@ class Persona(ABC):
     _edad: int
     _dni: str
     def __init__(self, nombre: str, edad: int, dni: str):
+        if not dni or len(dni)!= 9:
+            raise DNIInvalidoException(f'El DNi {dni} no es válido. Debe tener 9 caracteres')
         self.nombre = nombre
         self._edad = edad
         self._dni = dni

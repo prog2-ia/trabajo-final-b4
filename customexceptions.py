@@ -1,4 +1,4 @@
-#EXCEPCIONES DE VEHICULO
+#EXCEPCIONES DE VEHÍCULO:
 class VehiculoException(Exception):
     pass
 
@@ -14,7 +14,7 @@ class CapacidadExcedidaException(VehiculoException):
 class VehiculoYaLibreException(VehiculoException):
     pass
 
-#EXCEPCIONES DE MODALIDAD
+#EXCEPCIONES DE MODALIDAD:
 class ModalidadException(Exception):
     pass
 
@@ -27,3 +27,34 @@ class VehiculoIncompatibleException(ModalidadException):
 class VehiculoFaltaException(ModalidadException):
     pass
 
+#EXCEPCIONES DE USUARIO:
+class UsuarioException(Exception):
+    pass
+
+class NivelInvalidoException(UsuarioException):
+    pass
+
+class DNIInvalidoException(UsuarioException):
+    pass
+
+#EXCEPCIONES DE PISTA:
+class PistaException(Exception):
+    pass
+
+class PistaCerradaException(PistaException):
+    pass
+
+class SinPlazasException(PistaException):
+    pass
+
+class YaInscritoException(PistaException):
+    pass
+
+class NivelInsuficienteException(PistaException):
+    pass
+
+class ActividadNoCompatibleException(PistaException):
+    pass
+
+class NoInscritoException(PistaException):
+    pass

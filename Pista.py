@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from Usuario import Usuario
 from Staff import Staff
+from customexceptions import NoInscritoException
 import random
 
 Nivel = int | None
@@ -52,10 +53,10 @@ class Pista(ABC):
             return False
 
     def cancelar(self, usuario: Usuario) -> str:
-        if usuario in self._participantes:
-            self._participantes.remove(usuario)
-            return f'❌ El usuario {usuario.nombre} ha cancelado su inscripción ❌'
-        return f'⚠️ El usuario {usuario.nombre} no estaba inscrito ⚠️'
+        if usuario not in self._participantes:
+            raise NoInscritoException(f'El usuario {usuario.nombre} no estaba inscrito.')
+        self._participantes.remove(usuario)
+        return f'El usuario {usuario.nombre} ha cancelado su inscripción'
 
     def lista_participantes(self) -> list[str] | str:
         if not self._participantes:
@@ -110,7 +111,7 @@ class Pista(ABC):
     def __str__(self) ->  str:
         if self._dificultad == 2:
             dif = 'Difícil'
-        elif self._dificultad:
+        elif self._dificultad == 1:
             dif = 'Media'
         else:
             dif = 'Sencilla'
