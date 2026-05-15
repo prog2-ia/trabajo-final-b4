@@ -2,6 +2,7 @@ from Usuario import Usuario
 from Staff import Staff
 from Vehiculo import VehiculoStaff, Bici
 from modalidades import Ciclismo, Senderismo
+from customexceptions import EquipamientoIncompletoException
 
 def main():
     def guardar_vehiculo_en_txt(vehiculo):
