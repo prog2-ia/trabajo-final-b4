@@ -69,31 +69,30 @@ def main():
             print("⚠️ No existe el archivo 'vehiculos.txt'. Se iniciará con una flota vacía.")
             return []
 
+    # 1. Instanciamos la modalidad
+    ruta_bici = Ciclismo()
 
-# 1. Instanciamos la modalidad
-ruta_bici = Ciclismo()
+    # 2. El equipamiento que trae nuestra persona desde el main
+    mochila_de_juan = ["Casco homologado", "Llaves", "Teléfono", "Bidón de agua"]
 
-# 2. El equipamiento que trae nuestra persona desde el main
-mochila_de_juan = ["Casco homologado", "Llaves", "Teléfono", "Bidón de agua"]
+    try:
+        equipamiento_necesario = ruta_bici.equipamiento()
 
-try:
-    equipamiento_necesario = ruta_bici.equipamiento()
+        articulos_faltantes = []
+        for articulo in equipamiento_necesario:
+            if articulo not in mochila_de_juan:
+                articulos_faltantes.append(articulo)
 
-    articulos_faltantes = []
-    for articulo in equipamiento_necesario:
-        if articulo not in mochila_de_juan:
-            articulos_faltantes.append(articulo)
+        # Si la lista de faltantes tiene algo (es decir, no está vacía), lanzamos el error
+        if len(articulos_faltantes) > 0:
+            # Unimos los artículos que faltan con comas para que el mensaje sea claro
+            faltan_str = ", ".join(articulos_faltantes)
+            raise EquipamientoIncompletoException(f"A Juan le falta equipamiento obligatorio: {faltan_str}")
 
-    # Si la lista de faltantes tiene algo (es decir, no está vacía), lanzamos el error
-    if len(articulos_faltantes) > 0:
-        # Unimos los artículos que faltan con comas para que el mensaje sea claro
-        faltan_str = ", ".join(articulos_faltantes)
-        raise EquipamientoIncompletoException(f"A Juan le falta equipamiento obligatorio: {faltan_str}")
+        print("✅ Juan tiene todo el equipamiento listo. ¡A pedalear!")
 
-    print("✅ Juan tiene todo el equipamiento listo. ¡A pedalear!")
+    except EquipamientoIncompletoException as e:
+        print(f"🛑 ACCESO DENEGADO: {e}")
 
-except EquipamientoIncompletoException as e:
-    print(f"🛑 ACCESO DENEGADO: {e}")
-
-if __name__ == "__main__":
-    main()
+    if __name__ == "__main__":
+        main()

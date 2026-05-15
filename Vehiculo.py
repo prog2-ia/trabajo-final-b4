@@ -1,5 +1,14 @@
 from abc import ABC, abstractmethod
 
+def guardar_reg_mantenimiento(matricula, fecha, detalles):
+    """Guarda un registro de mantenimiento en un archivo de texto."""
+    try:
+        # Usamos el modo "a" para que añada la línea al final sin borrar lo anterior
+        with open("historial_mantenimientos.txt", "a", encoding="utf-8") as archivo:
+            linea = f"FECHA: {fecha} | MATRÍCULA: {matricula} | DETALLES: {detalles}\n"
+            archivo.write(linea)
+    except IOError as e:
+        print(f"❌ Error al guardar el registro en el archivo: {e}")
 
 class Vehiculo(ABC):
     def __init__(self, nombre: str, matricula: int, marca: str, modelo: str, anyo: int, estadooptimo=True):
@@ -11,7 +20,6 @@ class Vehiculo(ABC):
         self.estadooptimo = estadooptimo
         self.reparacion = False
         self.disponible = True
-        self.historial_reparaciones = []
 
     def __str__(self):
         return f'Vehiculo de {self.nombre}: \n matrícula: {self.matricula} \n marca: {self.marca} \n modelo: {self.modelo} \n anyo: {self.anyo}'
@@ -70,9 +78,8 @@ class Bici(Vehiculo):
         if self.pastillas_freno != 'Nuevas':
             self.pastillas_freno = 'Nuevas'
 
-        registro = f"{fecha} Mantenimiento realizado de la bici {self.matricula}: {detalles}"
-        self.historial_reparaciones.append(registro)
-        print(f"Registro guardado para {self.matricula}: {detalles}")
+        guardar_reg_mantenimiento(self.matricula, fecha, detalles)
+        print(f"{fecha} Registro de mantenimiento de la bici guardado para {self.matricula}: {detalles}")
         self.estadooptimo = True
 
         return True
@@ -132,10 +139,8 @@ class VehiculoStaff(Vehiculo):
         if self.presion_neumaticos != 'Óptima':
             self.presion_neumaticos = 'Óptima'
 
-        registro = f"[{fecha}] Mantenimiento del vehículo {self.matricula}: {detalles}"
-        self.historial_reparaciones.append(registro)
-        print(f"✅ Registro guardado para {self.matricula}: {detalles}")
-
+        print(f"{fecha} Registro de mantenimiento del coche staff guardado para {self.matricula}: {detalles}")
+        guardar_reg_mantenimiento(self.matricula, fecha, detalles)
         self.estadooptimo = True
 
         return True
