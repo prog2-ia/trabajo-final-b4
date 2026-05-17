@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from Usuario import Usuario
-from Staff import Staff
-from customexceptions import NoInscritoException
+from src.Personas.Usuario import Usuario
+from src.Personas.Staff import Staff
+from src.Exceptions.customexceptions import NoInscritoException
 import random
 
 Nivel = int | None

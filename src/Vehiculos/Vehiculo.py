@@ -1,14 +1,12 @@
 from abc import ABC, abstractmethod
 
 def guardar_reg_mantenimiento(matricula, fecha, detalles):
-    """Guarda un registro de mantenimiento en un archivo de texto."""
     try:
-        # Usamos el modo "a" para que añada la línea al final sin borrar lo anterior
-        with open("historial_mantenimientos.txt", "a", encoding="utf-8") as archivo:
-            linea = f"FECHA: {fecha} | MATRÍCULA: {matricula} | DETALLES: {detalles}\n"
+        with open('../../historial_mantenimientos.txt', 'a', encoding='utf-8') as archivo:
+            linea = f'FECHA: {fecha} | MATRÍCULA: {matricula} | DETALLES: {detalles}\n'
             archivo.write(linea)
     except IOError as e:
-        print(f"❌ Error al guardar el registro en el archivo: {e}")
+        print(f'Error al guardar el registro en el archivo: {e}')
 
 class Vehiculo(ABC):
     def __init__(self, nombre: str, matricula: int, marca: str, modelo: str, anyo: int, estadooptimo=True):
@@ -22,7 +20,7 @@ class Vehiculo(ABC):
         self.disponible = True
 
     def __str__(self):
-        return f'Vehiculo de {self.nombre}: \n matrícula: {self.matricula} \n marca: {self.marca} \n modelo: {self.modelo} \n anyo: {self.anyo}'
+        return f'Vehiculo de {self.nombre}: \n matrícula: {self.matricula} \n marca: {self.marca} \n modelo: {self.modelo} \n año: {self.anyo}'
 
     @abstractmethod
     def mantenimiento(self, fecha: str, detalles: str) -> bool:
@@ -30,27 +28,27 @@ class Vehiculo(ABC):
 
     def reporteaveria(self):
         self.reparacion = True
-        return f"El vehículo {self.matricula} ha reportado una avería."
+        return f'El vehículo {self.matricula} ha reportado una avería.'
 
     def iniciar_uso(self, usuario) ->bool:
         if self.estadooptimo == False:
-            print(f"❌ Error: El vehículo {self.matricula} no se puede usar. No está en estado óptimo")
+            print(f' Error: El vehículo {self.matricula} no se puede usar. No está en estado óptimo')
             return False
 
         if not self.disponible:
-            print(f"❌ Error: El vehículo {self.matricula} ya está siendo utilizado por otra persona.")
+            print(f' Error: El vehículo {self.matricula} ya está siendo utilizado por otra persona.')
             return False
 
         self.disponible = False
-        print(f"✅ La persona '{self.nombre}' ha empezado a usar el vehículo {self.matricula}.")
+        print(f' La persona "{self.nombre}" ha empezado a usar el vehículo {self.matricula}.')
         return True
 
     def finalizar_uso(self):
         if not self.disponible:
             self.disponible = True
-            print(f"🔄 El vehículo {self.matricula} ha sido devuelto y vuelve a estar disponible.")
+            print(f' El vehículo {self.matricula} ha sido devuelto y vuelve a estar disponible.')
         else:
-            print(f"⚠️ El vehículo {self.matricula} ya estaba libre.")
+            print(f' El vehículo {self.matricula} ya estaba libre.')
 
 
 class Bici(Vehiculo):
@@ -58,9 +56,9 @@ class Bici(Vehiculo):
         super().__init__(nombre, matricula, marca, modelo, anyo, estadooptimo)
         self.tipo_bici = tipo_bici
         self.marchas = marchas
-        self.estado_cadena = "Óptimo"
-        self.presion_ruedas = "Óptima"
-        self.pastillas_freno = "Nuevas"
+        self.estado_cadena = 'Óptimo'
+        self.presion_ruedas = 'Óptima'
+        self.pastillas_freno = 'Nuevas'
 
         if tipo_bici == 'carretera':
             self.velocidad_media_estimada = 20
@@ -79,18 +77,18 @@ class Bici(Vehiculo):
             self.pastillas_freno = 'Nuevas'
 
         guardar_reg_mantenimiento(self.matricula, fecha, detalles)
-        print(f"{fecha} Registro de mantenimiento de la bici guardado para {self.matricula}: {detalles}")
+        print(f'{fecha} Registro de mantenimiento de la bici guardado para {self.matricula}: {detalles}')
         self.estadooptimo = True
 
         return True
 
     def __str__(self):
         generica = super().__str__()
-        return f"{generica} | Tipo: {self.tipo_bici}, {self.marchas} marchas."
+        return f'{generica} | Tipo: {self.tipo_bici}, {self.marchas} marchas.'
 
     def pedalear(self):
         print(
-            f"El ciclista está pedaleando en la {self.marca} {self.modelo} a una velocidad media de {self.velocidad_media_estimada} km/h.")
+            f'El ciclista está pedaleando en la {self.marca} {self.modelo} a una velocidad media de {self.velocidad_media_estimada} km/h.')
 
 
 class VehiculoStaff(Vehiculo):
@@ -107,28 +105,28 @@ class VehiculoStaff(Vehiculo):
 
     def __str__(self):
         generica = super().__str__()
-        return f"{generica} | Tipo: {self.tipo_vehiculo}, Capacidad: {self.cap_pasajeros} pasajeros."
+        return f'{generica} | Tipo: {self.tipo_vehiculo}, Capacidad: {self.cap_pasajeros} pasajeros.'
 
     def embarcar_pasajero(self, persona_staff: str) -> None:
         if len(self.pasajeros) < self.cap_pasajeros:
             self.pasajeros.append(persona_staff)
-            print(f"El pasajero {persona_staff} ha subido al vehículo {self.matricula}.")
+            print(f'El pasajero {persona_staff} ha subido al vehículo {self.matricula}.')
         else:
-            print(f"Vehículo {self.matricula} lleno. No se pudo embarcar a {persona_staff}.")
+            print(f'Vehículo {self.matricula} lleno. No se pudo embarcar a {persona_staff}.')
 
     def mostrar_personal_bordo(self):
         if self.pasajeros:
-            print(f"Personal a bordo del {self.matricula}:")
+            print(f'Personal a bordo del {self.matricula}:')
             for i in self.pasajeros:
-                print(f"- {i}")
+                print(f'- {i}')
         else:
-            print(f"El vehículo {self.matricula} no tiene pasajeros.")
+            print(f'El vehículo {self.matricula} no tiene pasajeros.')
 
     def mantenimiento(self, fecha: str, detalles: str) -> bool:
-        print(f"Estado actual del vehículo de staff {self.matricula}:")
-        print(f"- Combustible: {self.combustible}%")
-        print(f"- Aceite: {self.estado_aceite}")
-        print(f"- Neumáticos: {self.presion_neumaticos}")
+        print(f'Estado actual del vehículo de staff {self.matricula}:')
+        print(f'- Combustible: {self.combustible}%')
+        print(f'- Aceite: {self.estado_aceite}')
+        print(f'- Neumáticos: {self.presion_neumaticos}')
 
         if self.combustible < 50:
             self.combustible = 50
@@ -139,7 +137,7 @@ class VehiculoStaff(Vehiculo):
         if self.presion_neumaticos != 'Óptima':
             self.presion_neumaticos = 'Óptima'
 
-        print(f"{fecha} Registro de mantenimiento del coche staff guardado para {self.matricula}: {detalles}")
+        print(f'{fecha} Registro de mantenimiento del coche staff guardado para {self.matricula}: {detalles}')
         guardar_reg_mantenimiento(self.matricula, fecha, detalles)
         self.estadooptimo = True
 

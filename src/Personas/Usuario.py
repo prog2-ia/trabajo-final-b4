@@ -1,5 +1,5 @@
-from Persona import Persona, NivelEntrada, Nivel
-from customexceptions import NivelInvalidoException
+from src.Personas.Persona import Persona, NivelEntrada, Nivel
+from src.Exceptions.customexceptions import NivelInvalidoException
 
 
 # El nivel funciona : (0=Principiante, 1=Aficionado, 2=Experto)

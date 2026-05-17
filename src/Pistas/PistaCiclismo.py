@@ -1,6 +1,6 @@
-from Pista import Pista
-from Usuario import Usuario
-from customexceptions import PistaCerradaException, SinPlazasException, YaInscritoException, ActividadNoCompatibleException, NivelInsuficienteException
+from src.Pistas.Pista import Pista
+from src.Personas.Usuario import Usuario
+from src.Exceptions.customexceptions import PistaCerradaException, SinPlazasException, YaInscritoException, ActividadNoCompatibleException, NivelInsuficienteException
 
 
 class PistaCiclismo(Pista):
@@ -22,4 +22,4 @@ class PistaCiclismo(Pista):
 
         else:
             self._participantes.append(usuario)
-            return f'El usuario {usuario.nombre} ha sido inscrito correctamente en la pista {self._nombre} 🚴‍'
+            return f'El usuario {usuario.nombre} ha sido inscrito correctamente en la pista {self._nombre}'

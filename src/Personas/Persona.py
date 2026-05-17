@@ -1,5 +1,5 @@
 from abc import ABC
-from customexceptions import DNIInvalidoException
+from src.Exceptions.customexceptions import DNIInvalidoException
 
 NivelEntrada = int | str | None
 Nivel = int | None
