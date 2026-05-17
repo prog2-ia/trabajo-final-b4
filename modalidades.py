@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Self
 
 class Modalidad(ABC):
     def __init__(self, nombre: str, requiere_vehiculo: bool):

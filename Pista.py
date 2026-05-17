@@ -131,6 +131,11 @@ class Pista(ABC):
         return (f'Pista(nombre={self._nombre}, dificultad={self._dificultad}, longitud={self._longitud}, max_personas={self._max_personas}, '
                 f'terreno={self._terreno}), puntos_interes={self._puntos_interes}, clima={self._clima}, abierta = {self._abierta}, staff= {self._staff}')
 
+    @property
+    def nombre(self) -> str:
+        return self._nombre
 
-
+    @property
+    def participantes(self) -> list:
+        return self._participantes
 

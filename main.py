@@ -1,102 +1,71 @@
 from Usuario import Usuario
 from Staff import Staff
 from Vehiculo import VehiculoStaff, Bici
-from modalidades import Ciclismo, Senderismo
-from customexceptions import EquipamientoIncompletoException
+from PistaCiclismo import PistaCiclismo
+from PistaSenderismo import PistaSenderismo
+import interfaz
 
 
+# --- PERSISTENCIA DE VEHÍCULOS ---
 def guardar_vehiculo_en_txt(vehiculo):
-    # Abrimos el archivo en modo 'a' (añadir)
     try:
         with open("vehiculos.txt", "a", encoding="utf-8") as fichero:
-
-            # Comprobamos de qué clase es el vehículo para saber qué atributos tiene
             if isinstance(vehiculo, Bici):
-                # Formateamos los datos separados por el símbolo |
                 linea = f"Bici|{vehiculo.nombre}|{vehiculo.matricula}|{vehiculo.marca}|{vehiculo.modelo}|{vehiculo.anyo}|{vehiculo.tipo_bici}|{vehiculo.marchas}\n"
-
             elif isinstance(vehiculo, VehiculoStaff):
                 linea = f"Staff|{vehiculo.nombre}|{vehiculo.matricula}|{vehiculo.marca}|{vehiculo.modelo}|{vehiculo.anyo}|{vehiculo.tipo_vehiculo}|{vehiculo.cap_pasajeros}\n"
-
             fichero.write(linea)
-            print(f"Vehículo {vehiculo.matricula} guardado correctamente en el fichero.")
-
     except IOError as e:
-        # Excepción por si hay problemas de permisos o el disco está lleno
-        print(f"Error al intentar guardar en el archivo: {e}")
+        print(f"❌ Error al guardar vehículo: {e}")
 
 
 def cargar_vehiculos_desde_txt():
-    flota = []  # Lista donde guardaremos los objetos recuperados
-
+    flota = []
     try:
-        # Abrimos en modo 'r' (leer)
         with open("vehiculos.txt", "r", encoding="utf-8") as fichero:
             for linea in fichero:
-                # Quitamos el salto de línea del final y partimos por el separador
                 datos = linea.strip().split("|")
-
+                if not datos or len(datos) < 2: continue
                 tipo = datos[0]
-
                 if tipo == "Bici":
-                    # ¡Ojo! Los números hay que convertirlos de texto a int()
-                    nueva_bici = Bici(
-                        nombre=datos[1],
-                        matricula=int(datos[2]),
-                        marca=datos[3],
-                        modelo=datos[4],
-                        anyo=int(datos[5]),
-                        tipo_bici=datos[6],
-                        marchas=int(datos[7])
-                    )
-                    flota.append(nueva_bici)
-
+                    flota.append(
+                        Bici(datos[1], int(datos[2]), datos[3], datos[4], int(datos[5]), datos[6], int(datos[7])))
                 elif tipo == "Staff":
-                    nuevo_staff = VehiculoStaff(
-                        nombre=datos[1],
-                        matricula=int(datos[2]),
-                        marca=datos[3],
-                        modelo=datos[4],
-                        anyo=int(datos[5]),
-                        tipo_vehiculo=datos[6],
-                        cap_pasajeros=int(datos[7])
-                    )
-                    flota.append(nuevo_staff)
-
-        print(f"✅ Se han cargado {len(flota)} vehículos del fichero.")
+                    flota.append(VehiculoStaff(datos[1], int(datos[2]), datos[3], datos[4], int(datos[5]), datos[6],
+                                               int(datos[7])))
+        print(f"✅ Se han cargado {len(flota)} vehículos históricos.")
         return flota
-
     except FileNotFoundError:
-        # Si el programa se ejecuta por primera vez, el .txt no existirá
-        print("⚠️ No existe el archivo 'vehiculos.txt'. Se iniciará con una flota vacía.")
         return []
 
+
+def inicializar_sistema():
+    # Estructuras de datos base que se irán modificando en vivo
+    usuarios = {
+        "11111111A": Usuario("Juan Ramos", 28, "11111111A", nivel_ciclismo="aficionado",
+                             nivel_senderismo="principiante"),
+        "22222222B": Usuario("Ana López", 32, "22222222B", nivel_ciclismo="experto", nivel_senderismo="experto")
+    }
+    personal_staff = {
+        "Carlos": Staff("Carlos Gómez", 40, "33333333C", "Coordinador de Rutas"),
+        "Lucia": Staff("Lucía Martos", 35, "44444444D", "Mecánica Principal")
+    }
+    pistas = {
+        "Ruta del Valle": PistaCiclismo("Ruta del Valle", dificultad=1, longitud=25.0, max_personas=2,
+                                        terreno="Tierra"),
+        "Senda de la Roca": PistaSenderismo("Senda de la Roca", dificultad=2, longitud=12.5, max_personas=10,
+                                            terreno="Pedregoso")
+    }
+    return usuarios, personal_staff, pistas
+
+
 def main():
+    usuarios, personal_staff, pistas = inicializar_sistema()
+    flota = cargar_vehiculos_desde_txt()
 
-    # 1. Instanciamos la modalidad
-    ruta_bici = Ciclismo()
+    # Arrancamos la super-interfaz con todos los accesos mutables
+    interfaz.menu_principal(flota, usuarios, personal_staff, pistas)
 
-    # 2. El equipamiento que trae nuestra persona desde el main
-    mochila_de_juan = ["Casco homologado", "Llaves", "Teléfono", "Bidón de agua"]
-
-    try:
-        equipamiento_necesario = ruta_bici.equipamiento()
-
-        articulos_faltantes = []
-        for articulo in equipamiento_necesario:
-            if articulo not in mochila_de_juan:
-                articulos_faltantes.append(articulo)
-
-        # Si la lista de faltantes tiene algo (es decir, no está vacía), lanzamos el error
-        if len(articulos_faltantes) > 0:
-            # Unimos los artículos que faltan con comas para que el mensaje sea claro
-            faltan_str = ", ".join(articulos_faltantes)
-            raise EquipamientoIncompletoException(f"A Juan le falta equipamiento obligatorio: {faltan_str}")
-
-        print("✅ Juan tiene todo el equipamiento listo. ¡A pedalear!")
-
-    except EquipamientoIncompletoException as e:
-        print(f"🛑 ACCESO DENEGADO: {e}")
 
 if __name__ == "__main__":
     main()
