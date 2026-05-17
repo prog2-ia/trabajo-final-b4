@@ -12,7 +12,7 @@ class Staff(Persona):
         return str_per + f'\n Rol: {self._rol}'
 
     def __repr__(self) -> str:
-        return f'Staff(nombre={self.nombre}, edad={self._edad}, dni={self._dni}, rol={self._rol})'
+        return f'Staff(nombre={self.nombre}, edad={self.edad}, dni={self.dni}, rol={self._rol})'
 
     def cambiar_nivel_ciclismo(self, usuario: Usuario, nivel: NivelEntrada) -> str:
         usuario.poner_nivel_ciclismo(nivel)

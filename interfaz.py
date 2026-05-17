@@ -1,7 +1,10 @@
 # Asumimos que ya tienes importadas tus clases Bici, VehiculoStaff
 # y tus funciones de ficheros (cargar_vehiculos_desde_txt y guardar_vehiculo_en_txt)
+from Vehiculo import Bici, VehiculoStaff
+
 
 def main():
+    from main import cargar_vehiculos_desde_txt, guardar_vehiculo_en_txt
     print("Cargando sistema...")
     # 1. Al arrancar, cargamos lo que ya existe en el txt
     flota = cargar_vehiculos_desde_txt()
@@ -39,7 +42,7 @@ def main():
                 marchas = int(input("Número de marchas: "))
 
                 # 3. Con los datos del input, creamos el objeto
-                nueva_bici = Bici(nombre, matricula, marca, modelo, anyo, tipo, marchas)
+                nueva_bici = Bici(nombre, matricula, marca, modelo, anyo, tipo_bici=tipo, marchas=marchas)
 
                 # 4. Lo añadimos a la memoria RAM (la lista)
                 flota.append(nueva_bici)
@@ -53,9 +56,24 @@ def main():
                 # Si el usuario escribe "hola" en vez de un número en la matrícula
                 print("❌ Error: Debes introducir un número válido para matrícula, año o marchas.")
 
+
         elif opcion == "3":
-            # (Aquí harías exactamente lo mismo pero pidiendo los inputs para VehiculoStaff)
-            print("Opción en construcción...")
+            print("\n--- NUEVO VEHÍCULO DE STAFF ---")
+            try:
+                nombre = input("Nombre del responsable: ")
+                matricula = int(input("Matrícula (número entero): "))
+                marca = input("Marca: ")
+                modelo = input("Modelo: ")
+                anyo = int(input("Año de fabricación: "))
+                tipo_v = input("Tipo de vehículo (Van/4x4/Turismo): ")
+                capacidad = int(input("Capacidad de pasajeros: "))
+                nuevo_staff = VehiculoStaff(nombre, matricula, marca, modelo, anyo, tipo_v, capacidad)
+                flota.append(nuevo_staff)
+                guardar_vehiculo_en_txt(nuevo_staff)  # Recuerda modificar main.py para que esto funcione
+                print("✅ Vehículo de Staff registrado y guardado con éxito.")
+
+            except ValueError:
+                print("❌ Error: Debes introducir un número válido para matrícula, año o capacidad.")
 
         elif opcion == "4":
             print("Saliendo del programa... ¡Hasta pronto!")
